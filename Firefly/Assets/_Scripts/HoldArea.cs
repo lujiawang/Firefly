@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class HoldArea : MonoBehaviour
 {
@@ -12,6 +13,11 @@ public class HoldArea : MonoBehaviour
     private int randomIndex;
 
     SpriteRenderer sr;
+
+    public int ID = 0;
+    public bool held;
+
+    private PlayableDirector fragmentPD;
 
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -36,6 +42,8 @@ public class HoldArea : MonoBehaviour
     {
         audioSource = this.gameObject.GetComponent<AudioSource>();
         sr = this.gameObject.GetComponent<SpriteRenderer>();
+
+        fragmentPD = this.GetComponentInChildren<PlayableDirector>();
     }
 
 
@@ -55,8 +63,11 @@ public class HoldArea : MonoBehaviour
 
     private void HoldFunctions()
     {
+        held = true;
         SoundEffect();
         VFX();
+
+        this.enabled = false;
     }
 
 
@@ -78,6 +89,8 @@ public class HoldArea : MonoBehaviour
     {
         //alpha
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.5f);
+
+        fragmentPD.Play();
 
     }
 }

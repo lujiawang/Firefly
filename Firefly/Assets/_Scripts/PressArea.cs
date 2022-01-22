@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class PressArea : MonoBehaviour
 {
@@ -13,9 +14,11 @@ public class PressArea : MonoBehaviour
 
 
     SpriteRenderer sr;
+    private PlayableDirector pd;
     public GameObject TitlePoint;
 
-    public int ID;
+    public int ID = 0;
+    public bool pressed;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -40,6 +43,11 @@ public class PressArea : MonoBehaviour
     {
         audioSource = this.gameObject.GetComponent<AudioSource>();
         sr = this.gameObject.GetComponent<SpriteRenderer>();
+        if (TitlePoint)
+        {
+            pd = TitlePoint.GetComponentInChildren<PlayableDirector>();
+            TitlePoint.SetActive(false);
+        }
     }
 
     private void Update()
@@ -57,6 +65,7 @@ public class PressArea : MonoBehaviour
 
     private void PressFunctions()
     {
+        pressed = true;
         SoundEffect();
         VFX();
     }
@@ -81,13 +90,21 @@ public class PressArea : MonoBehaviour
         //alpha
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.2f);
 
-        TitlePoint.SetActive(true);
+        if (TitlePoint)
+        {
+            TitlePoint.SetActive(true);
+            pd.Play();
+            Destroy(TitlePoint, (float)pd.duration);
 
+        }
     }
 
     private void VFXExit()
     {
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
-        TitlePoint.SetActive(false);
+        /*if (TitlePoint)
+        {
+            TitlePoint.SetActive(false);
+        }*/
     }
 }
