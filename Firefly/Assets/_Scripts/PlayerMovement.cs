@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     public bool inBoundary = false;
 
     public static PlayerMovement instance;
+    public bool inMenu = false;
 
 
     private AudioSource audioSource;
@@ -42,48 +44,57 @@ public class PlayerMovement : MonoBehaviour
     //input
     private void Update()
     {
-        movement.x = Input.GetAxisRaw("Horizontal"); //-1 ~ 1
-        movement.y = Input.GetAxisRaw("Vertical");
-
-        
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (!inMenu)
         {
-            holdTimeCounter = 0f;
-        }
+            movement.x = Input.GetAxisRaw("Horizontal"); //-1 ~ 1
+            movement.y = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKey(KeyCode.Space))
-        {
-            isPress = true;
-            holdTimeCounter += Time.deltaTime;
-            if (holdTimeCounter >= HoldTime)
+
+
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                isHold = true;
-                holdTimeCounter = 0;
-                return;
+                holdTimeCounter = 0f;
             }
 
-            if (holdTimeCounter >= pressTime && !inBoundary && !isPlaying)
+            if (Input.GetKey(KeyCode.Space))
             {
-                PlayNotes();
+                isPress = true;
+                holdTimeCounter += Time.deltaTime;
+                if (holdTimeCounter >= HoldTime)
+                {
+                    isHold = true;
+                    holdTimeCounter = 0;
+                    return;
+                }
+
+                if (holdTimeCounter >= pressTime && !inBoundary && !isPlaying)
+                {
+                    PlayNotes();
+                }
             }
-        }
 
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            holdTimeCounter = 0f;
-            isPress = false;
-            isHold = false;
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                holdTimeCounter = 0f;
+                isPress = false;
+                isHold = false;
 
-            isPlaying = false;
+                isPlaying = false;
+            }
+
         }
 
     }
 
+
+
     //movement
     private void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        if (!inMenu)
+        {
+            rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        }
     }
 
 
@@ -99,5 +110,14 @@ public class PlayerMovement : MonoBehaviour
         audioSource.PlayOneShot(audioClips[currentIndex]);
         Debug.Log("Playing " + audioClips[currentIndex].name);
         isPlaying = true;
+    }
+
+
+
+    public void ToMenu()
+    {
+        Time.timeScale = 0.0f;
+        SceneManager.LoadScene("Menu", LoadSceneMode.Additive);
+        inMenu = true;
     }
 }

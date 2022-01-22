@@ -13,6 +13,9 @@ public class PressArea : MonoBehaviour
 
 
     SpriteRenderer sr;
+    public GameObject TitlePoint;
+
+    public int ID;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -29,7 +32,7 @@ public class PressArea : MonoBehaviour
         {
             inBoundary = false;
             PlayerMovement.instance.inBoundary = false;
-            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
+            VFXExit();
         }
     }
 
@@ -76,7 +79,15 @@ public class PressArea : MonoBehaviour
     private void VFX()
     {
         //alpha
-        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.5f);
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.2f);
 
+        TitlePoint.SetActive(true);
+
+    }
+
+    private void VFXExit()
+    {
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
+        TitlePoint.SetActive(false);
     }
 }
