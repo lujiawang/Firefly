@@ -11,11 +11,21 @@ public class PlayerMovement : MonoBehaviour
 
     private float holdTimeCounter;
     public float HoldTime = 1f;
+    private float pressTime = 0.1f;
 
     public bool isHold = false;
     public bool isPress = false;
 
+    public bool inBoundary = false;
+
     public static PlayerMovement instance;
+
+
+    private AudioSource audioSource;
+    public AudioClip[] audioClips;
+    private int currentIndex = 0;
+    private int randomIndex;
+    private bool isPlaying = false;
 
     private void Awake()
     {
@@ -26,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
+        audioSource = this.gameObject.GetComponent<AudioSource>();
     }
 
     //input
@@ -51,6 +62,11 @@ public class PlayerMovement : MonoBehaviour
                 holdTimeCounter = 0;
                 return;
             }
+
+            if (holdTimeCounter >= pressTime && !inBoundary && !isPlaying)
+            {
+                PlayNotes();
+            }
         }
 
         if (Input.GetKeyUp(KeyCode.Space))
@@ -58,6 +74,8 @@ public class PlayerMovement : MonoBehaviour
             holdTimeCounter = 0f;
             isPress = false;
             isHold = false;
+
+            isPlaying = false;
         }
 
     }
@@ -66,5 +84,20 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+    }
+
+
+    private void PlayNotes()
+    {
+        randomIndex = (int)Random.Range(0f, audioClips.Length);
+        if (randomIndex == currentIndex)
+        {
+            randomIndex = (randomIndex + 1) % audioClips.Length;
+        }
+        currentIndex = randomIndex;
+
+        audioSource.PlayOneShot(audioClips[currentIndex]);
+        Debug.Log("Playing " + audioClips[currentIndex].name);
+        isPlaying = true;
     }
 }
