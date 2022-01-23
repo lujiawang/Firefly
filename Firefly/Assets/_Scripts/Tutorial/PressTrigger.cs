@@ -47,7 +47,7 @@ public class PressTrigger : MonoBehaviour
         DottedCircle = this.transform.Find("DottedCircle").gameObject;
 
 
-        sr = this.gameObject.GetComponent<SpriteRenderer>();
+        sr = this.gameObject.GetComponentInChildren<SpriteRenderer>();
         if (TitlePoint)
         {
             pd = TitlePoint.GetComponentInChildren<PlayableDirector>();

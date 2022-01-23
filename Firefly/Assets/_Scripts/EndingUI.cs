@@ -2,18 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Playables;
 
 public class EndingUI : MonoBehaviour
 {
     public static EndingUI instance;
     public int finishedNum = 0;
-    private int totalNum = 12;
+    public int totalNum = 12;
 
     public string EndingScene;
+
+    public PlayableDirector PD;
+
 
     private void Awake()
     {
         instance = this;
+        
     }
 
 
@@ -27,13 +32,23 @@ public class EndingUI : MonoBehaviour
     {
         if (finishedNum == totalNum)
         {
-            StartCoroutine(Ending());
+            StartCoroutine(TimelineStart());
             this.enabled = false;
         }
     }
+    IEnumerator TimelineStart()
+    {
+        yield return new WaitForSeconds(1f);
+        PD.gameObject.SetActive(true);
+        PD.Play();
+        StartCoroutine(Ending());
+    }
+
+
     IEnumerator Ending()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f + (float)PD.duration);
         SceneManager.LoadScene(EndingScene);
     }
+
 }
