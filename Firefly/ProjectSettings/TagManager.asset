@@ -50,3 +50,6 @@ TagManager:
   - name: Player
     uniqueID: 2606084341
     locked: 0
+  - name: Credit
+    uniqueID: 988835181
+    locked: 0

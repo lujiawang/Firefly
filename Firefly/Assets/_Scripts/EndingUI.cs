@@ -7,7 +7,7 @@ public class EndingUI : MonoBehaviour
 {
     public static EndingUI instance;
     public int finishedNum = 0;
-    private int totalNum = 12;
+    private int totalNum = 2;
 
     public string EndingScene;
 
@@ -27,13 +27,13 @@ public class EndingUI : MonoBehaviour
     {
         if (finishedNum == totalNum)
         {
-            Ending();
+            StartCoroutine(Ending());
             this.enabled = false;
         }
     }
-
-    void Ending()
+    IEnumerator Ending()
     {
+        yield return new WaitForSeconds(5f);
         SceneManager.LoadScene(EndingScene);
     }
 }

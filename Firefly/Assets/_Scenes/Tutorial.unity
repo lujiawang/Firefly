@@ -227,6 +227,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 232042269}
+  - component: {fileID: 232042270}
   m_Layer: 0
   m_Name: NextScene
   m_TagString: Untagged
@@ -248,6 +249,18 @@ Transform:
   m_Father: {fileID: 1869711886}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &232042270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 232042268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6e3d4de51dfdfd4a81afcc5032a12fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &238665040
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +278,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &238665041
 Transform:
   m_ObjectHideFlags: 0
@@ -558,7 +571,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &773454392
 Transform:
   m_ObjectHideFlags: 0
@@ -665,7 +678,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &859753931
 AudioSource:
   m_ObjectHideFlags: 0
@@ -811,7 +824,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1428112428
 Transform:
   m_ObjectHideFlags: 0
