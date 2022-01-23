@@ -18,6 +18,7 @@ public class EndingUI : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        
     }
 
 
@@ -38,6 +39,7 @@ public class EndingUI : MonoBehaviour
     IEnumerator TimelineStart()
     {
         yield return new WaitForSeconds(1f);
+        PD.gameObject.SetActive(true);
         PD.Play();
         StartCoroutine(Ending());
     }
