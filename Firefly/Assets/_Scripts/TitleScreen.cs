@@ -10,10 +10,18 @@ public class TitleScreen : MonoBehaviour
     public GameObject Credit;
     private bool inCredit = false;
 
+    private AudioSource audioSource;
+    public AudioClip[] audioClips;
+    private int currentIndex = 0;
+    private int randomIndex;
+    private bool isPlaying = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
         Credit.SetActive(false);
+        audioSource = this.gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -26,6 +34,8 @@ public class TitleScreen : MonoBehaviour
             {
                 buttonPress = true;
                 StartGame();
+                if (!isPlaying)
+                    PlayNotes();
             }
             else if (Input.GetKeyDown(KeyCode.A))
             {
@@ -33,24 +43,31 @@ public class TitleScreen : MonoBehaviour
                 Credit.SetActive(true);
                 inCredit = true;
                 buttonPress = true;
+                if (!isPlaying)
+                    PlayNotes();
             }
             else if (Input.GetKeyDown(KeyCode.D))
             {
                 //quit
                 QuitGame();
                 buttonPress = true;
+                if (!isPlaying)
+                    PlayNotes();
             }
         }
 
-        if (inCredit && Input.GetKeyUp(KeyCode.A) )
+        if (Input.GetKeyUp(KeyCode.A) )
         {
-            buttonPress = false;
+            buttonPress = false; 
+            isPlaying = false;
         }
 
         if (inCredit && !buttonPress && Input.GetKeyDown(KeyCode.A))
         {
             Credit.SetActive(false);
             inCredit = false;
+            if (!isPlaying)
+                PlayNotes();
         }
     }
 
@@ -65,4 +82,20 @@ public class TitleScreen : MonoBehaviour
     {
         Application.Quit();
     }
+
+
+    private void PlayNotes()
+    {
+        randomIndex = (int)Random.Range(0f, audioClips.Length);
+        if (randomIndex == currentIndex)
+        {
+            randomIndex = (randomIndex + 1) % audioClips.Length;
+        }
+        currentIndex = randomIndex;
+
+        audioSource.PlayOneShot(audioClips[currentIndex]);
+        //Debug.Log("Playing " + audioClips[currentIndex].name);
+        isPlaying = true;
+    }
+
 }

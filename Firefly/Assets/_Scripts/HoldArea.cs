@@ -19,6 +19,7 @@ public class HoldArea : MonoBehaviour
 
     private PlayableDirector fragmentPD;
 
+    public GameObject DottedCircle;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -91,6 +92,6 @@ public class HoldArea : MonoBehaviour
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.5f);
 
         fragmentPD.Play();
-
+        DottedCircle.SetActive(false);
     }
 }

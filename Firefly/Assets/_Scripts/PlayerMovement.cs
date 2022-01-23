@@ -108,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
         currentIndex = randomIndex;
 
         audioSource.PlayOneShot(audioClips[currentIndex]);
-        Debug.Log("Playing " + audioClips[currentIndex].name);
+        //Debug.Log("Playing " + audioClips[currentIndex].name);
         isPlaying = true;
     }
 

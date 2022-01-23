@@ -20,6 +20,8 @@ public class PressArea : MonoBehaviour
     public int ID = 0;
     public bool pressed;
 
+    public GameObject DottedCircle;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -96,6 +98,7 @@ public class PressArea : MonoBehaviour
             pd.Play();
             Destroy(TitlePoint, (float)pd.duration);
 
+            DottedCircle.SetActive(false);
         }
     }
 

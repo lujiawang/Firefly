@@ -37,6 +37,8 @@ public class PressUI : MonoBehaviour
 
         if (_pressArea.pressed)
         {
+            EndingUI.instance.finishedNum++;
+
             image.color = Color.black;
             this.enabled = false;
         }

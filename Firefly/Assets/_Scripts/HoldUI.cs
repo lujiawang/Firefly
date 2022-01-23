@@ -36,6 +36,8 @@ public class HoldUI : MonoBehaviour
     {
         if (_holdArea.held)
         {
+            EndingUI.instance.finishedNum++;
+
             image.color = Color.black;
             this.enabled = false;
         }
