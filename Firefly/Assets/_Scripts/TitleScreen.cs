@@ -75,6 +75,12 @@ public class TitleScreen : MonoBehaviour
     private void StartGame()
     {
         Time.timeScale = 1.0f;
+        StartCoroutine(SceneLoad());
+    }
+
+    IEnumerator SceneLoad ()
+    {
+        yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(SceneName);
     }
 
