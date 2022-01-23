@@ -19,7 +19,9 @@ public class HoldArea : MonoBehaviour
 
     private PlayableDirector fragmentPD;
 
-    public GameObject DottedCircle;
+    private GameObject DottedCircle;
+    private GameObject BigLightenOpen;
+    private GameObject BigLightenClose;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -45,6 +47,10 @@ public class HoldArea : MonoBehaviour
         sr = this.gameObject.GetComponent<SpriteRenderer>();
 
         fragmentPD = this.GetComponentInChildren<PlayableDirector>();
+
+        DottedCircle = this.transform.Find("DottedCircle").gameObject;
+        BigLightenOpen = this.transform.Find("BigLightenOpen").gameObject;
+        BigLightenClose = this.transform.Find("BigLightenClose").gameObject;
     }
 
 
@@ -86,6 +92,7 @@ public class HoldArea : MonoBehaviour
         //Debug.Log("Playing " + audioClips[currentIndex].name);
     }
 
+
     private void VFX()
     {
         //alpha
@@ -93,5 +100,18 @@ public class HoldArea : MonoBehaviour
 
         fragmentPD.Play();
         DottedCircle.SetActive(false);
+
+        BigLightenOpen.SetActive(true);
+
+        ParticleSystem bigLightPart = BigLightenOpen.gameObject.GetComponent<ParticleSystem>();
+        float duration = bigLightPart.main.duration;
+        StartCoroutine(LightClose(duration));
+    }
+
+    IEnumerator LightClose(float duration)
+    {
+        yield return new WaitForSeconds(duration + 0.5f);
+        //BigLightenOpen.SetActive(false);
+        BigLightenClose.SetActive(true);
     }
 }
