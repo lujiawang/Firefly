@@ -90,6 +90,7 @@ public class PressTrigger : MonoBehaviour
             //Destroy(TitlePoint, (float)pd.duration);
 
             DottedCircle.SetActive(false);
+            sr.enabled = false;
 
             StartCoroutine(ToNextObject());
 
