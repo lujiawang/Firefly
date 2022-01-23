@@ -7,7 +7,7 @@ public class EndingUI : MonoBehaviour
 {
     public static EndingUI instance;
     public int finishedNum = 0;
-    private int totalNum = 2;
+    private int totalNum = 12;
 
     public string EndingScene;
 

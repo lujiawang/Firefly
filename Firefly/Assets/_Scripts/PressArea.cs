@@ -49,7 +49,7 @@ public class PressArea : MonoBehaviour
 
 
         audioSource = this.gameObject.GetComponent<AudioSource>();
-        sr = this.gameObject.GetComponent<SpriteRenderer>();
+        sr = this.gameObject.GetComponentInChildren<SpriteRenderer>();
         if (TitlePoint)
         {
             pd = TitlePoint.GetComponentInChildren<PlayableDirector>();

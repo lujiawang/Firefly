@@ -44,7 +44,8 @@ public class HoldArea : MonoBehaviour
     private void Start()
     {
         audioSource = this.gameObject.GetComponent<AudioSource>();
-        sr = this.gameObject.GetComponent<SpriteRenderer>();
+
+        sr = this.gameObject.GetComponentInChildren<SpriteRenderer>();
 
         fragmentPD = this.GetComponentInChildren<PlayableDirector>();
 
