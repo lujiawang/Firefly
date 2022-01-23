@@ -3,18 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class HoldArea : MonoBehaviour
+public class HoldTrigger : MonoBehaviour
 {
     private bool inBoundary;
 
-    private AudioSource audioSource;
-    public AudioClip[] audioClips;
-    private int currentIndex = 0;
-    private int randomIndex;
-
     SpriteRenderer sr;
 
-    public int ID = 0;
     public bool held;
 
     private PlayableDirector fragmentPD;
@@ -23,12 +17,14 @@ public class HoldArea : MonoBehaviour
     private GameObject BigLightenOpen;
     private GameObject BigLightenClose;
 
+    private ObjectNext objectNext;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             inBoundary = true;
-            PlayerMovement.instance.inBoundary = true;
+            PressAndHold.instance.inBoundary = true;
         }
     }
 
@@ -37,13 +33,12 @@ public class HoldArea : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             inBoundary = false;
-            PlayerMovement.instance.inBoundary = false;
+            PressAndHold.instance.inBoundary = false;
             sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
         }
     }
     private void Start()
     {
-        audioSource = this.gameObject.GetComponent<AudioSource>();
         sr = this.gameObject.GetComponent<SpriteRenderer>();
 
         fragmentPD = this.GetComponentInChildren<PlayableDirector>();
@@ -51,6 +46,9 @@ public class HoldArea : MonoBehaviour
         DottedCircle = this.transform.Find("DottedCircle").gameObject;
         BigLightenOpen = this.transform.Find("BigLightenOpen").gameObject;
         BigLightenClose = this.transform.Find("BigLightenClose").gameObject;
+
+
+        objectNext = this.transform.parent.gameObject.GetComponent<ObjectNext>();
     }
 
 
@@ -58,7 +56,7 @@ public class HoldArea : MonoBehaviour
     {
         if (inBoundary)
         {
-            if (PlayerMovement.instance.isHold)
+            if (PressAndHold.instance.isHold)
             {
                 Debug.Log("isHold");
                 HoldFunctions();
@@ -71,25 +69,10 @@ public class HoldArea : MonoBehaviour
     private void HoldFunctions()
     {
         held = true;
-        SoundEffect();
+        TutorialAudio.instance.PlayNotes();
         VFX();
 
         this.enabled = false;
-    }
-
-
-    private void SoundEffect()
-    {
-        //audio
-        randomIndex = (int)Random.Range(0f, audioClips.Length);
-        if (randomIndex == currentIndex)
-        {
-            randomIndex = (randomIndex + 1) % audioClips.Length;
-        }
-        currentIndex = randomIndex;
-
-        audioSource.PlayOneShot(audioClips[currentIndex]);
-        //Debug.Log("Playing " + audioClips[currentIndex].name);
     }
 
 
@@ -106,6 +89,7 @@ public class HoldArea : MonoBehaviour
         ParticleSystem bigLightPart = BigLightenOpen.gameObject.GetComponent<ParticleSystem>();
         float duration = bigLightPart.main.duration;
         StartCoroutine(LightClose(duration));
+        
     }
 
     IEnumerator LightClose(float duration)
@@ -113,5 +97,12 @@ public class HoldArea : MonoBehaviour
         yield return new WaitForSeconds(duration + 0.5f);
         //BigLightenOpen.SetActive(false);
         BigLightenClose.SetActive(true);
+        
+        StartCoroutine(ToNextObject(duration));
+    }
+    IEnumerator ToNextObject(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        objectNext.finished = true;
     }
 }

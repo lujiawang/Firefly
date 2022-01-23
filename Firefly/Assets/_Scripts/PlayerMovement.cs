@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float holdTimeCounter;
     public float HoldTime = 1f;
-    private float pressTime = 0.1f;
+    private float pressTime = 0.05f;
 
     public bool isHold = false;
     public bool isPress = false;
